@@ -1,0 +1,12 @@
+This is a bot that connects to an irc channel and indexes all public messages with IndexTank.
+
+How to use it:
+
+- gem install indextank
+
+Go to indextank.com and get an account. Replace your api url in config.yaml.
+Set the channel you want to index too.
+
+Run indexer.rb, it will create an index for your channel the first time it runs.
+While running, it will index every public message on the channel.
+
