@@ -30,9 +30,9 @@ tr.d1 td {
                 var itemRender = function(item) {
                     even = 1 - even;
                     var d = $.timeago(new Date(parseInt(item.timestamp)*1000));
-                    return $("<tr class=\"d" + even + "\"></tr>").append( $("<td></td>").append( $("<p></p>").html("<small><b>" + item.user + " - " + d + "</b></small><br/> " + item.snippet_text) ));
+                    return $("<tr class=\"d" + even + "\"></tr>").append( $("<td></td>").append( $("<p></p>").html("<small><b>" + item.user + " - " + d + "</b></small><br/><br/> " + item.snippet_text) ));
                 };
-                $("#myform").indextank_Ize('http://your_api_url', '_indexname');
+                $("#myform").indextank_Ize('http://my_public_url', '_indexname');
                 var renderer =  $("#results").indextank_Renderer({format: itemRender});
                 var stats = $("#stats").indextank_StatsRenderer();
                 $("#query").indextank_Autocomplete().indextank_AjaxSearch( {listeners: renderer.add(stats) ,fields: "*"}).indextank_InstantSearch();
