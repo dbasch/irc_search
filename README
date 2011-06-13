@@ -10,3 +10,7 @@ Set the channel you want to index too.
 Run indexer.rb, it will create an index for your channel the first time it runs.
 While running, it will index every public message on the channel.
 
+If you want to use search.html you'll need to make your index public and edit
+the page accordingly. On your dashboard click on Manage for your index and enable 
+public search api. Replace your public api and index name in search.html and it should work.
+
