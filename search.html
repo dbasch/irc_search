@@ -2,10 +2,10 @@
     <head>
 <style type="text/css">
 tr.d0 td {
-	background-color: #eee; color: black;
+	background-color: #efefef; color: black;
 }
 tr.d1 td {
-	background-color: #ddddCC; color: black;
+	background-color: #cdcdcd; color: black;
 }
 </style>
     <link href="http://plixitank.heroku.com/stylesheets/screen.css?1295775511" media="screen" rel="stylesheet" type="text/css" /> 
@@ -30,9 +30,9 @@ tr.d1 td {
                 var itemRender = function(item) {
                     even = 1 - even;
                     var d = $.timeago(new Date(parseInt(item.timestamp)*1000));
-                    return $("<tr class=\"d" + even + "\"></tr>").append( $("<td></td>").append( $("<p></p>").html(d + " - " + item.snippet_text) ));
+                    return $("<tr class=\"d" + even + "\"></tr>").append( $("<td></td>").append( $("<p></p>").html("<small><b>" + item.user + " - " + d + "</b></small><br/> " + item.snippet_text) ));
                 };
-                $("#myform").indextank_Ize('http://your_public_api_url', '_your_index_name');
+                $("#myform").indextank_Ize('http://your_api_url', '_indexname');
                 var renderer =  $("#results").indextank_Renderer({format: itemRender});
                 var stats = $("#stats").indextank_StatsRenderer();
                 $("#query").indextank_Autocomplete().indextank_AjaxSearch( {listeners: renderer.add(stats) ,fields: "*"}).indextank_InstantSearch();
@@ -41,15 +41,14 @@ tr.d1 td {
     </head>
 
     <body>
-        <h1>IndexTank IRC search demo</h1>
-        <form id="myform">
-            <input id="query" type="text"/>
+        <h1 style="display:inline">IndexTank IRC search demo:</h1>
+        <form style="display:inline" id="myform">
+            <input id="query" type="text" value="type something here" onfocus="value=''"/>
         </form>
 
         <p id="stats"></p>
-<center>
-        <table id="results"></table>
-</center>
+        <p/>
+        <table cellpadding="5" id="results"></table>
 
     </body>
 </html>
