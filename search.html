@@ -1,0 +1,55 @@
+<html>
+    <head>
+<style type="text/css">
+tr.d0 td {
+	background-color: #eee; color: black;
+}
+tr.d1 td {
+	background-color: #ddddCC; color: black;
+}
+</style>
+    <link href="http://plixitank.heroku.com/stylesheets/screen.css?1295775511" media="screen" rel="stylesheet" type="text/css" /> 
+        <!-- Dependencies -->
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://github.com/flaptor/indextank-jquery/raw/1.x/jquery.indextank.ize.js"></script>
+        <script type="text/javascript" src="https://github.com/flaptor/indextank-jquery/raw/1.x/jquery.indextank.autocomplete.js"></script>
+        <script type="text/javascript" src="https://github.com/flaptor/indextank-jquery/raw/1.x/jquery.indextank.ajaxsearch.js"></script>
+        <script type="text/javascript" src="https://github.com/flaptor/indextank-jquery/raw/1.x/jquery.indextank.renderer.js"></script>
+        <script type="text/javascript" src="https://github.com/flaptor/indextank-jquery/raw/1.x/jquery.indextank.statsrenderer.js"></script>
+        <script type="text/javascript" src="https://github.com/flaptor/indextank-jquery/raw/1.x/jquery.indextank.instantsearch.js"></script>
+        <script type="text/javascript" src="https://github.com/flaptor/indextank-jquery/raw/1.x/jquery.indextank.basic.js"></script>
+        <script type="text/javascript" src="https://github.com/rmm5t/jquery-timeago/raw/master/jquery.timeago.js"></script>
+        <link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/south-street/jquery-ui.css" media="all" />
+
+
+        <script>
+            var even=0;
+            $(document).ready(function(){
+                var itemRender = function(item) {
+                    even = 1 - even;
+                    var d = $.timeago(new Date(parseInt(item.timestamp)*1000));
+                    return $("<tr class=\"d" + even + "\"></tr>").append( $("<td></td>").append( $("<p></p>").html(d + " - " + item.snippet_text) ));
+                };
+                $("#myform").indextank_Ize('http://your_public_api_url', '_your_index_name');
+                var renderer =  $("#results").indextank_Renderer({format: itemRender});
+                var stats = $("#stats").indextank_StatsRenderer();
+                $("#query").indextank_Autocomplete().indextank_AjaxSearch( {listeners: renderer.add(stats) ,fields: "*"}).indextank_InstantSearch();
+            });
+        </script>
+    </head>
+
+    <body>
+        <h1>IndexTank IRC search demo</h1>
+        <form id="myform">
+            <input id="query" type="text"/>
+        </form>
+
+        <p id="stats"></p>
+<center>
+        <table id="results"></table>
+</center>
+
+    </body>
+</html>
