@@ -4,6 +4,7 @@ require 'yaml'
 require 'indextank'
 
 DELIM = ' PRIVMSG'
+PAGESIZE = 20
 config = YAML::load(File.open('config.yaml'))
 chan = config['channel']
 api = IndexTank::Client.new config['api_url']
@@ -13,7 +14,7 @@ indexes = api.indexes
 index = api.indexes idxname
 
 if not index.exists?
-  index.add 
+  index.add({:public_search => true})
   while not index.running?
     sleep 0.5
     printf "waiting for index %s to be ready...\n", idxname
@@ -32,6 +33,8 @@ end
 
 printf "next docid is %d\n", docid
 
+page =""
+lines = 0
 
 while true
   s = TCPSocket.open(config['server'], config['port'])
@@ -52,21 +55,27 @@ while true
         user = parts[0].split('!')[0][1..-1]
         rest = parts[1..-1].join DELIM
         text = rest[2 + chan.size..-1]
-        printf "docid: %d, user: %s, text %s", docid, user, text
         ts = Time.now.to_i
         if init
           index.document("nextid").add({:nextid => :nextid})
           init = false
         end
 
+        page += user + ' ' + text + ' '
+        printf "docid: %d, text %s", docid, page
+
         begin
-          index.document(docid.to_s).add({ :user => user, :text => user + ' ' + text, :timestamp => ts, :matchall => :all}, :variables => {1 => docid})
+          index.document(docid.to_s).add({:text => page, :timestamp => ts, :matchall => :all}, :variables => {1 => docid})
           index.document(:nextid).update_variables(0 => docid+1)
         rescue
           sleep 1
           retry
         end
-        docid += 1
+        if lines == PAGESIZE
+          docid += 1
+          lines = 0
+          page = ""
+        end
       end
       STDOUT.flush
     end

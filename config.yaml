@@ -1,5 +1,5 @@
 server: irc.freenode.net
 port: 6667
-channel: "#yourchannel"
+channel: "#indextonk"
 name: IndexTank
-api_url: "http://your_indextank_api_url"
+api_url: "http://:CKlWs1eYg2E9cP@84zrk.api.indextank.com"
