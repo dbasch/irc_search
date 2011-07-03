@@ -62,7 +62,8 @@ while true
         end
 
         page += user + ' ' + text + ' '
-        printf "docid: %d, text %s", docid, page
+        lines += 1
+        printf "docid: %d, text %s", docid, user + ' ' + text
 
         begin
           index.document(docid.to_s).add({:text => page, :timestamp => ts, :matchall => :all}, :variables => {1 => docid})
